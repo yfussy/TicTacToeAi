@@ -1,0 +1,10 @@
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 46px;
+    padding-top: 20px;
+    padding-bottom: 100px;
+}
