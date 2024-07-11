@@ -1,7 +1,7 @@
 const WIN = 1;
 var nextMove;
 var counter = 0;
-const DEPTH = 8;
+var depth = 0;
 
 export function displayArray(arr) {
     console.log(`Current Arr:`)
@@ -16,7 +16,7 @@ export function findBestMove(game) {
     counter = 0;
     let validMoves = getValidMoves(game);
     console.log(`Starting board: ${game.board}`);
-    findMoveNegaMaxAlphaBeta(game, validMoves, DEPTH, -WIN, WIN, 1);
+    findMoveNegaMaxAlphaBeta(game, validMoves, -WIN, WIN, 1);
     console.log(counter);
     return nextMove;
 }
@@ -31,31 +31,35 @@ function getValidMoves(game) {
     return validMoves;
 }
 
-function findMoveNegaMaxAlphaBeta(game, validMoves, depth, alpha, beta, turnMultiplier) {
+function findMoveNegaMaxAlphaBeta(game, validMoves, alpha, beta, turnMultiplier) {
 
     counter++;
-    if (depth === 0 || game.gameOver()) {
+    if (game.gameOver()) {
         return turnMultiplier * scoreBoard(game);
     }
 
     let maxScore = -WIN;
     for (let i = 0; i < validMoves.length; i++) {
+        depth++;
+
         game.makeMove(validMoves[i]);
 
         let nextMoves = getValidMoves(game);
 
-        let score = -findMoveNegaMaxAlphaBeta(game, nextMoves, depth - 1, -beta, -alpha, -turnMultiplier);
+        let score = -findMoveNegaMaxAlphaBeta(game, nextMoves, -beta, -alpha, -turnMultiplier);
 
         if (score > maxScore) {
             maxScore = score;
             
-            if (depth === DEPTH) {
+            if (depth === 1) {
                 nextMove = validMoves[i];
                 console.log(`Current Best Move: ${validMoves[i]} -> ${score}`);
             }
         }
         
         game.undoMove();
+
+        depth--;
 
         if (maxScore > alpha) {
             alpha = maxScore;
