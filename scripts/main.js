@@ -1,35 +1,53 @@
-import { gs } from "./gameState.js";
+import { GameState } from "./gameState.js";
 import { findBestMove } from "./gameAi.js";
 
-function computerMakeRandomMove() {
+const gs = new GameState({
+    playerOneMarker: 'X',
+    playerTwoMarker: 'O',
+    board: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    playerOne: false,
+    playerTwo: true
+});
+
+function computerMakeRandomMove(game) {
     while (true) {
-        if (gs.checkTie() || gs.checkWinner(gs.playerMarker) || gs.checkWinner(gs.computerMarker)) {
+        if (game.checkTie() || game.checkWinner(game.playerOneMarker) || game.checkWinner(game.playerTwoMarker)) {
             break;
         }
         let move = Math.floor(Math.random() * 8);
-        if (gs.board[move] == ' ') {
-            gs.makeMove(move);
+        if (game.board[move] == ' ') {
+            game.makeMove(move);
             break; 
         }
     }
 }
 
-function computerMakeMove(game) {
+function computerMakeBestMove(game) {
     let move = findBestMove(game);
-    gs.makeMove(move);
+    console.log(`Next move: ${move}`);
+    if (move != undefined) {
+        console.log("MAKING GENIUS MOVE!");
+        game.makeMove(move);
+    } else {
+        console.log("making random move...");
+        computerMakeRandomMove(game);
+    }
     return;
 }
 
-function init() {
+function init(game) {
+    let header = document.querySelector('.js-game-state');
+    
     document.querySelectorAll('.js-place-marker').forEach(button => {
         button.addEventListener('click', () => {
-            let header = document.querySelector('.js-game-state');
-            if (gs.gameState) {
-                if (gs.playerToMove) {
+            
+            if (game.gameState) {
+                if (game.playerOne) {
                     let move = button.dataset.gridId;
-                    if (gs.board[move] == ' ') {
-                        gs.makeMove(move, gs.playerMarker);
-                        gs.drawBoard();
+                    if (game.board[move] == ' ') {
+                        game.makeMove(move, game.playerOneMarker);
+                        console.log(`Current board: ${game.board}`);
+                        game.drawBoard();
                     } else {
                         header.innerHTML = "This place is occupy!";
                         return;
@@ -38,12 +56,12 @@ function init() {
                     return;
                 }
     
-                if (gs.checkWinner(gs.playerMarker)) {
+                if (game.checkWinner(game.playerOneMarker)) {
                     header.innerHTML = "You Win!";
-                    gs.gameState = false
-                } else if (gs.checkTie()) {
+                    game.gameState = false
+                } else if (game.checkTie()) {
                     header.innerHTML = "It's a Tie...";
-                    gs.gameState = false;
+                    game.gameState = false;
                 } else {
                     header.innerHTML = "Computer making move...";
     
@@ -52,16 +70,16 @@ function init() {
                             resolve();
                         }, 500);    
                     }).then(() => {
-                        computerMakeRandomMove(gs);
-                        gs.drawBoard();
+                        computerMakeBestMove(game);
+                        game.drawBoard();
                     }).then(() => {
-                        if (gs.checkWinner(gs.computerMarker)) {
+                        if (game.checkWinner(game.playerTwoMarker)) {
                             header.innerHTML = "Computer Wins!";
-                            gs.gameState = false
+                            game.gameState = false
                         } else {
-                            if (gs.checkTie()) {
+                            if (game.checkTie()) {
                                 header.innerHTML = "It's a Tie...";
-                                gs.gameState = false;
+                                game.gameState = false;
                             }
                             header.innerHTML = "It's your turn!"
                         }
@@ -70,6 +88,30 @@ function init() {
             }
         });
     });
+
+    if (game.playerTwo) {
+        header.innerHTML = "Computer making move...";
+    
+        new Promise(resolve => {
+            setTimeout(() => {
+                resolve();
+            }, 500);    
+        }).then(() => {
+            computerMakeBestMove(game);
+            game.drawBoard();
+        }).then(() => {
+            if (game.checkWinner(game.playerTwoMarker)) {
+                header.innerHTML = "Computer Wins!";
+                game.gameState = false
+            } else {
+                if (game.checkTie()) {
+                    header.innerHTML = "It's a Tie...";
+                    game.gameState = false;
+                }
+                header.innerHTML = "It's your turn!"
+            }
+        });
+    }
 }
     
-init();
+init(gs);

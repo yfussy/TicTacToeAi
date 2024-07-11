@@ -1,17 +1,19 @@
-class GameState {
+export class GameState {
     board;
     boardLog;
-    playerMarker;
-    computerMarker;
+    playerOneMarker;
+    playerTwoMarker;
     gameState = true;
-    playerToMove = false;
-    computerToMove = true;
+    playerOne;
+    playerTwo;
 
     constructor(sides) {
-        this.playerMarker = sides.playerMarker;
-        this.computerMarker = sides.computerMarker;
+        this.playerOneMarker = sides.playerOneMarker;
+        this.playerTwoMarker = sides.playerTwoMarker;
         this.board = sides.board;
         this.boardLog = [JSON.parse(JSON.stringify(this.board))]
+        this.playerOne = sides.playerOne;
+        this.playerTwo = sides.playerTwo;
     }
 
     #copyList(list) {
@@ -26,61 +28,77 @@ class GameState {
     }
     
     makeMove(move) {
-        this.board[move] = this.playerToMove? this.playerMarker: this.computerMarker;
+        this.board[move] = this.playerOne? this.playerOneMarker: this.playerTwoMarker;
         this.boardLog.unshift(this.#copyList(this.board));
-        this.playerToMove = !this.playerToMove;
-        this.computerToMove = !this.computerToMove;
+        this.playerOne = !this.playerOne;
+        this.playerTwo = !this.playerTwo;
         return;
     }
     
     undoMove() {
         this.board = this.#copyList(this.boardLog[1]);
         this.boardLog.shift();
-        this.playerToMove = !this.playerToMove;
-        this.computerToMove = !this.computerToMove;
+        this.playerOne = !this.playerOne;
+        this.playerTwo = !this.playerTwo;
+        this.gameState = true;
         return;
     }
     
     checkWinner(side) {
-        if ((this.board[0] == side) && (this.board[0] != ' ') && (this.board[0] == this.board[1]) && (this.board[1] == this.board[2])) {
+        // check horizontally
+        for (let i = 0; i <= 6; i += 3) {
+            if (
+            this.board[i] === side &&
+            this.board[i] !== ' ' &&
+            this.board[i] === this.board[i + 1] &&
+            this.board[i + 1] === this.board[i + 2]
+            ) {
             return true;
-        } else if ((this.board[3] == side) && (this.board[3] != ' ') && (this.board[3] == this.board[4]) && (this.board[4] == this.board[5])) {
-            return true;
-        } else if ((this.board[6] == side) && (this.board[6] != ' ') && (this.board[6] == this.board[7]) && (this.board[7] == this.board[8])) {
-            return true;
-        } else if ((this.board[0] == side) && (this.board[0] != ' ') && (this.board[0] == this.board[3]) && (this.board[3] == this.board[6])) {
-            return true;
-        } else if ((this.board[1] == side) && (this.board[1] != ' ') && (this.board[1] == this.board[4]) && (this.board[4] == this.board[7])) {
-            return true;
-        } else if ((this.board[2] == side) && (this.board[2] != ' ') && (this.board[2] == this.board[5]) && (this.board[5] == this.board[8])) {
-            return true;
-        } else if ((this.board[0] == side) && (this.board[0] != ' ') && (this.board[0] == this.board[4]) && (this.board[4] == this.board[8])) {
-            return true;
-        } else if ((this.board[2] == side) && (this.board[2] != ' ') && (this.board[2] == this.board[4]) && (this.board[4] == this.board[6])) {
-            return true;
-        } else {
-            return false
+            }
         }
+    
+        // check vertically
+        for (let i = 0; i <= 2; i++) {
+            if (
+            this.board[i] === side &&
+            this.board[i] !== ' ' &&
+            this.board[i] === this.board[i + 3] &&
+            this.board[i + 3] === this.board[i + 6]
+            ) {
+            return true;
+            }
+        }
+    
+        // check diagonally
+        if (
+            this.board[4] === side &&
+            this.board[4] !== ' ' &&
+            ((this.board[0] === this.board[4] && this.board[4] === this.board[8]) ||
+            (this.board[2] === this.board[4] && this.board[4] === this.board[6]))
+        ) {
+            return true;
+        }
+
+        return false;
     }
     
     checkTie() {
         for (let i = 0; i < 9; i++) {
-            if (this.board[i] == '-') {
+            if (this.board[i] == ' ') {
                 return false;
             }
         }
         return true;
     }
+
+    gameOver() {
+        return this.checkWinner(this.playerOneMarker) || this.checkWinner(this.playerTwoMarker) || this.checkTie();
+    }
 }
 
-export const gs = new GameState({
-    playerMarker: 'X',
-    computerMarker: 'O',
-    board: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-});
 
 export const test_gs = new GameState({
-    playerMarker: 'O',
-    computerMarker: 'X',
+    playerOneMarker: 'O',
+    playerTwoMarker: 'X',
     board: ['-', 'O', 'O', 'O', 'X', 'X', 'X', '-', '-']
 });
