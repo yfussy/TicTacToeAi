@@ -1,12 +1,12 @@
 import { GameState } from "./gameState.js";
-import { findBestMove } from "./gameAi.js";
+import { displayBoardLog, findBestMove } from "./gameAi.js";
 
 const gs = new GameState({
     playerOneMarker: 'X',
     playerTwoMarker: 'O',
     board: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-    playerOne: false,
-    playerTwo: true
+    playerOne: true,
+    playerTwo: false
 });
 
 function computerMakeRandomMove(game) {
@@ -59,9 +59,11 @@ function init(game) {
                 if (game.checkWinner(game.playerOneMarker)) {
                     header.innerHTML = "You Win!";
                     game.gameState = false
+                    displayBoardLog(game.boardLog);
                 } else if (game.checkTie()) {
                     header.innerHTML = "It's a Tie...";
                     game.gameState = false;
+                    displayBoardLog(game.boardLog);
                 } else {
                     header.innerHTML = "Computer making move...";
     
@@ -75,17 +77,20 @@ function init(game) {
                     }).then(() => {
                         if (game.checkWinner(game.playerTwoMarker)) {
                             header.innerHTML = "Computer Wins!";
-                            game.gameState = false
+                            game.gameState = false;
+                            displayBoardLog(game.boardLog);
                         } else {
                             if (game.checkTie()) {
                                 header.innerHTML = "It's a Tie...";
                                 game.gameState = false;
+                                displayBoardLog(game.boardLog);
                             }
                             header.innerHTML = "It's your turn!"
                         }
                     });
                 }
             }
+
         });
     });
 
