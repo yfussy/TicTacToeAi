@@ -1,5 +1,6 @@
-import { GameState } from "./gameState.js";
-import { displayBoardLog, findBestMove } from "./gameAi.js";
+import GameState from "./gameState.js";
+import findBestMove from "./gameAi.js";
+import { displayBoardLog } from "./genralFunc.js";
 
 const gs = new GameState({
     playerOneMarker: 'X',

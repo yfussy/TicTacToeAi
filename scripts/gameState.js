@@ -1,4 +1,4 @@
-export class GameState {
+export default class GameState {
     board;
     boardLog;
     playerOneMarker;
