@@ -8,27 +8,35 @@
 
 .game-grid {
     display: grid;
-    grid-template-rows: 200px 200px 200px;
+    grid-template-rows: 160px 160px 160px;
     width: fit-content;
 }
 
 .game-grid button {
     background-color: inherit;
-    border: none;
-}
-
-.middle-row button {
-    border-top: 8px solid rgb(196, 196, 196);
-    border-bottom: 8px solid rgb(196, 196, 196);
-}
-
-.game-grid button:nth-child(2) {
-    border-left: 8px solid rgb(196, 196, 196);
-    border-right: 8px solid rgb(196, 196, 196);
+    border: 6px solid rgb(196, 196, 196);
+    border-radius: 18px;
+    margin: 10px;
 }
 
 .grid-row {
     display: grid;
-    grid-template-columns: 200px 200px 200px;
-    
+    grid-template-columns: 160px 160px 160px;
+}
+
+.animate {
+    animation-duration: 0.2s;
+    animation-name: animate-pop;
+    animation-timing-function: cubic-bezier(0.26, 0.53, 0.74, 1.48);
+}
+
+@keyframes animate-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.5, 0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
 }

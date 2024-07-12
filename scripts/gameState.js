@@ -1,6 +1,7 @@
 export default class GameState {
     board;
     boardLog;
+    currentMove;
     playerOneMarker;
     playerTwoMarker;
     gameState = true;
@@ -20,9 +21,36 @@ export default class GameState {
         return JSON.parse(JSON.stringify(list));
     }
 
+    getCurrentMove() {
+        for (let i = 0; i < 9; i++) {
+            if (this.boardLog[0][i] !== this.boardLog[1][i]) {
+                return i;
+            }
+        }
+        return;
+    }
+
     drawBoard() {
         document.querySelectorAll('.js-place-marker').forEach((button, i) => {
-            button.innerHTML = this.board[i];
+            let buttonInnerHTML = ``;
+
+            if (i === this.currentMove) {
+                buttonInnerHTML = 
+                `
+                    <div class="marker animate">
+                        ${this.board[i]}
+                    </div>
+                `;
+            } else {
+                buttonInnerHTML = 
+                `
+                    <div class="marker">
+                        ${this.board[i]}
+                    </div>
+                `;
+            }
+
+            button.innerHTML = buttonInnerHTML;
         });
         return;
     }
@@ -30,6 +58,7 @@ export default class GameState {
     makeMove(move) {
         this.board[move] = this.playerOne? this.playerOneMarker: this.playerTwoMarker;
         this.boardLog.unshift(this.#copyList(this.board));
+        this.currentMove = this.getCurrentMove();
         this.playerOne = !this.playerOne;
         this.playerTwo = !this.playerTwo;
         return;
