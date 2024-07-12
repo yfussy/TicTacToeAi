@@ -1,3 +1,21 @@
+.new-game {
+    background-color: inherit;
+    border: 6px solid rgb(196, 196, 196);
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 6px 18px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.new-game:hover {
+    background-color: rgb(196, 196, 196);
+    color: rgb(68, 68, 68);
+}
+
 .game-container {
     height: 80hv;
     overflow: auto;

@@ -12,7 +12,7 @@ export default class GameState {
         this.playerOneMarker = sides.playerOneMarker;
         this.playerTwoMarker = sides.playerTwoMarker;
         this.board = sides.board;
-        this.boardLog = [JSON.parse(JSON.stringify(this.board))]
+        this.boardLog = [this.#copyList(this.board)];
         this.playerOne = sides.playerOne;
         this.playerTwo = sides.playerTwo;
     }
@@ -37,14 +37,14 @@ export default class GameState {
             if (i === this.currentMove) {
                 buttonInnerHTML = 
                 `
-                    <div class="marker animate">
+                    <div class="animate">
                         ${this.board[i]}
                     </div>
                 `;
             } else {
                 buttonInnerHTML = 
                 `
-                    <div class="marker">
+                    <div>
                         ${this.board[i]}
                     </div>
                 `;
@@ -54,21 +54,57 @@ export default class GameState {
         });
         return;
     }
-    
+
+    resetBoard() {
+        this.board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+        this.boardLog = [this.#copyList(this.board)];
+        this.gameState = true;
+        this.currentMove = undefined;
+        this.playerOne = true;
+        this.playerTwo = false;
+        this.drawBoard();
+        this.changeSideHTML();
+        return;
+    }
+
+    changeSideHTML() {
+        let turnInnerHTML = ``;
+        if (this.playerOne) {
+            turnInnerHTML = 
+            `
+                <div class="square ${this.playerOneMarker} pop-in"></div>
+                <div class="square ${this.playerTwoMarker}"></div>
+            `;
+        } else {
+            turnInnerHTML = 
+            `
+                <div class="square ${this.playerOneMarker}"></div>
+                <div class="square ${this.playerTwoMarker} pop-in"></div>
+            `;
+        }
+        
+        document.querySelector(".js-turn").innerHTML = turnInnerHTML;
+        return;
+    }
+
+    changePlayer() {
+        this.playerOne = !this.playerOne;
+        this.playerTwo = !this.playerTwo;
+        this.changeSideHTML();
+    }   
+
     makeMove(move) {
         this.board[move] = this.playerOne? this.playerOneMarker: this.playerTwoMarker;
         this.boardLog.unshift(this.#copyList(this.board));
         this.currentMove = this.getCurrentMove();
-        this.playerOne = !this.playerOne;
-        this.playerTwo = !this.playerTwo;
+        this.changePlayer();
         return;
     }
     
     undoMove() {
         this.board = this.#copyList(this.boardLog[1]);
         this.boardLog.shift();
-        this.playerOne = !this.playerOne;
-        this.playerTwo = !this.playerTwo;
+        this.changePlayer();
         this.gameState = true;
         return;
     }

@@ -1,0 +1,53 @@
+.turn {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.square {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    margin: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    font-weight: 700;
+}
+
+.X:before {
+    content: 'X';
+    position: absolute;
+}
+
+.O:before {
+    content: 'O';
+    position: absolute;
+}
+
+.pop-in {
+    animation-duration: 0.25s;
+    animation-name: animate-pop-in;
+    animation-timing-function: cubic-bezier(0.26, 0.53, 0.74, 1.48);
+    animation-fill-mode: forwards;
+}
+
+@keyframes animate-pop-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.5, 0.5);
+        background-color: rgb(68, 68, 68);
+        color: rgb(196, 196, 196);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1, 1);
+        background-color: rgb(196, 196, 196);
+        color: rgb(68, 68, 68);
+    }
+}
+  

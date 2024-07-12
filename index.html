@@ -7,6 +7,8 @@
         <link rel="stylesheet" href="styles/general.css">
         <link rel="stylesheet" href="styles/game.css">
         <link rel="stylesheet" href="styles/header.css">
+        <link rel="stylesheet" href="styles/side.css">
+        
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,34 +16,42 @@
     </head>
 
     <body>
+        <div class="tic-tac-toe">
+            <header class="header">
+                <div class="game-state js-game-state">
+                    Tic Tac Toe
+                </div>
+            </header>
 
-        <div class="header">
-            <div class="game-state js-game-state">
-                Tic Tac Toe - It's your turn!
-            </div>
-        </div>
+            <button class="new-game js-new-game">
+                New Game
+            </button>
 
-        <div class="game-container">
-            <div class="game-grid">
-                <div class="grid-row">
-                    <button class="js-place-marker" data-grid-id="0"></button>
-                    <button class="js-place-marker" data-grid-id="1"></button>
-                    <button class="js-place-marker" data-grid-id="2"></button>
+            <main class="game-container">
+                <div class="game-grid">
+                    <div class="grid-row">
+                        <button class="js-place-marker animate" data-grid-id="0"></button>
+                        <button class="js-place-marker animate" data-grid-id="1"></button>
+                        <button class="js-place-marker animate" data-grid-id="2"></button>
+                    </div>
+                    <div class="grid-row middle-row">
+                        <button class="js-place-marker animate" data-grid-id="3"></button>
+                        <button class="js-place-marker animate" data-grid-id="4"></button>
+                        <button class="js-place-marker animate" data-grid-id="5"></button>
+                    </div>
+                    <div class="grid-row">
+                        <button class="js-place-marker animate" data-grid-id="6"></button>
+                        <button class="js-place-marker animate" data-grid-id="7"></button>
+                        <button class="js-place-marker animate" data-grid-id="8"></button>
+                    </div>
                 </div>
-                <div class="grid-row middle-row">
-                    <button class="js-place-marker" data-grid-id="3"></button>
-                    <button class="js-place-marker" data-grid-id="4"></button>
-                    <button class="js-place-marker" data-grid-id="5"></button>
-                </div>
-                <div class="grid-row">
-                    <button class="js-place-marker" data-grid-id="6"></button>
-                    <button class="js-place-marker" data-grid-id="7"></button>
-                    <button class="js-place-marker" data-grid-id="8"></button>
-                </div>
+            </main>
+            <div class="turn js-turn">
+                <div class="square X pop-in"></div>
+                <div class="square O"></div>
             </div>
-        </div>
+
 
         <script src="scripts/main.js" type="module"></script>
-        <!-- <script src="scripts/test.js" type="module"></script> -->
     </body>
 </html>

@@ -2,13 +2,15 @@ import GameState from "./gameState.js";
 import findBestMove from "./gameAi.js";
 import { displayBoardLog } from "./genralFunc.js";
 
-const gs = new GameState({
+const gameStatus = {
     playerOneMarker: 'X',
     playerTwoMarker: 'O',
     board: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     playerOne: true,
     playerTwo: false
-});
+}
+
+const gs = new GameState(gameStatus);
 
 function computerMakeRandomMove(game) {
     while (true) {
@@ -50,7 +52,6 @@ function init(game) {
                         console.log(`Current board: ${game.board}`);
                         game.drawBoard();
                     } else {
-                        header.innerHTML = "This place is occupy!";
                         return;
                     } 
                 } else {
@@ -65,9 +66,7 @@ function init(game) {
                     header.innerHTML = "It's a Tie...";
                     game.gameState = false;
                     displayBoardLog(game.boardLog);
-                } else {
-                    header.innerHTML = "Computer making move...";
-    
+                } else {  
                     new Promise(resolve => {
                         setTimeout(() => {
                             resolve();
@@ -86,7 +85,6 @@ function init(game) {
                                 game.gameState = false;
                                 displayBoardLog(game.boardLog);
                             }
-                            header.innerHTML = "It's your turn!"
                         }
                     });
                 }
@@ -95,9 +93,12 @@ function init(game) {
         });
     });
 
+    document.querySelector('.js-new-game').addEventListener('click', () => {
+        game.resetBoard();
+        header.innerHTML = "Tic Tac Toe";
+    });
+
     if (game.playerTwo) {
-        header.innerHTML = "Computer making move...";
-    
         new Promise(resolve => {
             setTimeout(() => {
                 resolve();
@@ -114,7 +115,6 @@ function init(game) {
                     header.innerHTML = "It's a Tie...";
                     game.gameState = false;
                 }
-                header.innerHTML = "It's your turn!"
             }
         });
     }
