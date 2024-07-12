@@ -1,12 +1,12 @@
 .new-game {
     background-color: inherit;
-    border: 6px solid rgb(196, 196, 196);
+    border: 3px solid rgb(196, 196, 196);
     border-radius: 8px;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 700;
     padding: 6px 18px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 15px;
 
     transition: background-color 0.15s, color 0.15s;
 }
@@ -17,8 +17,7 @@
 }
 
 .game-container {
-    height: 80hv;
-    overflow: auto;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,20 +25,22 @@
 
 .game-grid {
     display: grid;
-    grid-template-rows: 160px 160px 160px;
+    grid-template-rows: 100px 100px 100px;
     width: fit-content;
 }
 
 .game-grid button {
     background-color: inherit;
-    border: 6px solid rgb(196, 196, 196);
-    border-radius: 18px;
-    margin: 10px;
+    border: 5px solid rgb(196, 196, 196);
+    border-radius: 12px;
+    font-size: 45px;
+    font-weight: 700;
+    margin: 6px;
 }
 
 .grid-row {
     display: grid;
-    grid-template-columns: 160px 160px 160px;
+    grid-template-columns: 100px 100px 100px;
 }
 
 .animate {

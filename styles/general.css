@@ -2,11 +2,12 @@ body {
     background-color: rgb(68, 68, 68);
     font-family: Quicksand, Arial;
     color: rgb(196, 196, 196);
+    height: 97vh;
 }
 
 .tic-tac-toe {
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background-color: inherit;
     text-align: center;
     
@@ -16,6 +17,4 @@ button {
     cursor: pointer;
     color: inherit;
     font-family: Quicksand, Arial;
-    font-size: 85px;
-    font-weight: 600;
 }
